@@ -1,9 +1,21 @@
-import React, { useState } from "react";
-
+import React, { useState, useEffect } from "react";
+import questions from "../data/quiz"
 function Question({ question, onAnswered }) {
   const [timeRemaining, setTimeRemaining] = useState(10);
-
+  console.log(question)
   // add useEffect code
+  useEffect(()=>{
+    const time=setTimeout(()=>setTimeRemaining(timeRemaining-1),1000)
+
+    console.log(time)
+    return ()=>{
+      clearTimeout(time)
+    if(timeRemaining===0){
+      setTimeRemaining(10)
+      onAnswered(false)
+    }
+    }
+  },[timeRemaining]);
 
   function handleAnswer(isCorrect) {
     setTimeRemaining(10);
@@ -11,7 +23,7 @@ function Question({ question, onAnswered }) {
   }
 
   const { id, prompt, answers, correctIndex } = question;
-
+// console.log(question)
   return (
     <>
       <h1>Question {id}</h1>
@@ -28,5 +40,4 @@ function Question({ question, onAnswered }) {
     </>
   );
 }
-
 export default Question;
